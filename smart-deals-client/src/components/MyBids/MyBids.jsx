@@ -1,32 +1,41 @@
 import React, { use, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const MyBids = () => {
 
     const { user } = use(AuthContext)
     const [bids, setBids] = useState([])
+    const axiosSecure = useAxiosSecure()
 
     console.log(user.accessToken);
 
     useEffect(() => {
-        if (user?.email) {
-            fetch(`http://localhost:3000/bids?email=${user.email}`, {
-                headers : {
-                    authorization : `Bearer ${localStorage.getItem('token')}`
-                }
+        axiosSecure.get(`/bids?email=${user.email}`)
+            .then(data => {
+                setBids(data.data)
             })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    setBids(data)
-                })
-        }
-    }, [user])
-    
+    }, [user, axiosSecure])
+
     // useEffect(() => {
     //     if (user?.email) {
-    //         fetch(`http://localhost:3000/bids?email=${user.email}`, {
+    //         fetch(`https://smart-deals-api-server-kappa-five.vercel.app/bids?email=${user.email}`, {
+    //             headers : {
+    //                 authorization : `Bearer ${localStorage.getItem('token')}`
+    //             }
+    //         })
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 console.log(data);
+    //                 setBids(data)
+    //             })
+    //     }
+    // }, [user])
+
+    // useEffect(() => {
+    //     if (user?.email) {
+    //         fetch(`https://smart-deals-api-server-kappa-five.vercel.app/bids?email=${user.email}`, {
     //             headers : {
     //                 authorization : `Bearer ${user.accessToken}`
     //             }
@@ -51,7 +60,7 @@ const MyBids = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                fetch(`http://localhost:3000/bids/${_id}`, {
+                fetch(`https://smart-deals-api-server-kappa-five.vercel.app/bids/${_id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())

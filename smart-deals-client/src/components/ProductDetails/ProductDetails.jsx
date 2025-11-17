@@ -2,6 +2,8 @@ import React, { use, useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router';
 import { AuthContext } from '../../contexts/AuthContext';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const ProductDetails = () => {
 
@@ -9,19 +11,28 @@ const ProductDetails = () => {
     const [bids, setBids] = useState([])
     const bidModalRef = useRef(null)
     const { user } = use(AuthContext)
+    const axiosSecure = useAxiosSecure()
 
     useEffect(() => {
-        fetch(`http://localhost:3000/products/bids/${productId}`, {
-            headers : {
-                authorization : `Bearer ${user.accessToken}`
-            }
-        })
-            .then(res => res.json())
+        axiosSecure.get(`/products/bids/${productId}`)
             .then(data => {
-                console.log('bids for this product', data);
-                setBids(data)
+                console.log('after axios get data', data.data);
+                setBids(data.data)
             })
-    }, [productId, user])
+    }, [productId, axiosSecure])
+
+    // useEffect(() => {
+    //     fetch(`https://smart-deals-api-server-kappa-five.vercel.app/products/bids/${productId}`, {
+    //         headers : {
+    //             authorization : `Bearer ${user.accessToken}`
+    //         }
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             console.log('bids for this product', data);
+    //             setBids(data)
+    //         })
+    // }, [productId, user])
 
     // console.log(product);
 
@@ -44,7 +55,7 @@ const ProductDetails = () => {
             status: 'pending'
         }
 
-        fetch('http://localhost:3000/bids', {
+        fetch('https://smart-deals-api-server-kappa-five.vercel.app/bids', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

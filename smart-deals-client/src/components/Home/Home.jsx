@@ -1,10 +1,10 @@
 import React from 'react';
 import LatestProducts from '../LatestProducts/LatestProducts';
 
-const latestProductsPromise = fetch('http://localhost:3000/latest-products')
-                                    .then(res => res.json())
+const latestProductsPromise = fetch('https://smart-deals-api-server-kappa-five.vercel.app/latest-products')
+    .then(res => res.json())
 
-const Home = () => { 
+const Home = () => {
     return (
         <div>
             <h3>This is Home</h3>

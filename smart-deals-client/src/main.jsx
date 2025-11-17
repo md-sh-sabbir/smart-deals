@@ -13,6 +13,7 @@ import ProductDetails from './components/ProductDetails/ProductDetails.jsx'
 import MyProducts from './components/MyProducts/MyProducts.jsx'
 import PrivateRoute from './Routes/PrivateRoute/PrivateRoute.jsx'
 import MyBids from './components/MyBids/MyBids.jsx'
+import CreateAProduct from './components/CreateAProduct/CreateAProduct.jsx'
 
 const router = createBrowserRouter([
   {
@@ -45,9 +46,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'productDetails/:id',
-        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
-        element : <PrivateRoute>
+        loader: ({ params }) => fetch(`https://smart-deals-api-server-kappa-five.vercel.app/products/${params.id}`),
+        element: <PrivateRoute>
           <ProductDetails></ProductDetails>
+        </PrivateRoute>
+      },
+      {
+        path: 'createAProduct',
+        element: <PrivateRoute>
+          <CreateAProduct></CreateAProduct>
         </PrivateRoute>
       }
     ]

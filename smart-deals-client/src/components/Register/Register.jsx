@@ -10,18 +10,18 @@ const Register = () => {
             .then(result => {
                 console.log(result.user);
                 const newUser = {
-                    name : result.user.displayName,
-                    email : result.user.email,
-                    image : result.user.photoURL
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    image: result.user.photoURL
                 }
 
                 // create user in the database
-                fetch('http://localhost:3000/users', {
-                    method : 'POST',
-                    headers : {
-                        'content-type' : 'application/json'
+                fetch('https://smart-deals-api-server-kappa-five.vercel.app/users', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
                     },
-                    body : JSON.stringify(newUser)
+                    body: JSON.stringify(newUser)
                 })
                     .then(res => res.json())
                     .then(data => {
